@@ -1,0 +1,61 @@
+<form #contactForm="ngForm" class="contact-form" (ngSubmit)="onSubmit(contactForm)">
+  <div class="form-field">
+    <input
+      name="name"
+      type="text"
+      placeholder="Your Name"
+      [(ngModel)]="model.name"
+      required
+      #name="ngModel"
+    />
+    <div class="error" *ngIf="name.invalid && name.touched">Name is required.</div>
+  </div>
+
+  <div class="form-field">
+    <input
+      name="email"
+      type="email"
+      placeholder="Your Email"
+      [(ngModel)]="model.email"
+      required
+      email
+      #email="ngModel"
+    />
+    <div class="error" *ngIf="email.invalid && email.touched">
+      <span *ngIf="email.errors?.['required']">Email is required.</span>
+      <span *ngIf="email.errors?.['email']">Enter a valid email.</span>
+    </div>
+  </div>
+
+  <div class="form-field">
+    <input
+      name="phone"
+      type="text"
+      placeholder="Phone Number"
+      [(ngModel)]="model.phone"
+      required
+      #phone="ngModel"
+    />
+    <div class="error" *ngIf="phone.invalid && phone.touched">Phone number is required.</div>
+  </div>
+
+  <div class="form-field">
+    <textarea
+      name="message"
+      rows="5"
+      placeholder="Tell us your requirement"
+      [(ngModel)]="model.message"
+      required
+      #message="ngModel"
+    ></textarea>
+    <div class="error" *ngIf="message.invalid && message.touched">Requirement details are required.</div>
+  </div>
+
+  <button type="submit" [disabled]="submitting">
+    {{ submitting ? 'Submitting...' : 'Submit' }}
+  </button>
+
+  <div class="success-message" *ngIf="submitted">
+    {{ successMessage }}
+  </div>
+</form>
