@@ -1,0 +1,98 @@
+<main class="admin-page">
+  <nav class="admin-navbar">
+    <a class="brand" routerLink="/">
+      <img src="logo.png" alt="Sarvam Talent Solutions logo" />
+      <span>Sarvam Talent Solutions</span>
+    </a>
+
+    <div class="admin-nav-actions">
+      <a class="nav-link" routerLink="/">Back to site</a>
+      <button type="button" class="ghost-button" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <section class="admin-content">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">Admin workspace</p>
+        <h1>Enquiries</h1>
+        <p>{{ enquiries.length }} enquiry{{ enquiries.length === 1 ? '' : 'ies' }}</p>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="secondary-button" (click)="exportToExcel()" [disabled]="!enquiries.length">
+          Export to Excel
+        </button>
+      </div>
+    </header>
+
+    <section class="toolbar">
+      <label>
+        Search
+        <input
+          type="search"
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange()"
+          placeholder="Name, email, phone, message"
+        />
+      </label>
+
+      <label>
+        Sort by date
+        <select [(ngModel)]="sort" (change)="loadEnquiries()">
+          <option value="desc">Newest first</option>
+          <option value="asc">Oldest first</option>
+        </select>
+      </label>
+
+      <button type="button" (click)="loadEnquiries()" [disabled]="loading">
+        {{ loading ? 'Loading...' : 'Search' }}
+      </button>
+    </section>
+
+    <p class="admin-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="6" class="empty-state">Loading enquiries...</td>
+          </tr>
+
+          <tr *ngIf="!loading && !enquiries.length">
+            <td colspan="6" class="empty-state">No enquiries found.</td>
+          </tr>
+
+          <tr *ngFor="let enquiry of enquiries; trackBy: trackById">
+            <td>{{ enquiry.name }}</td>
+            <td><a [href]="'mailto:' + enquiry.email">{{ enquiry.email }}</a></td>
+            <td>{{ enquiry.phone || '-' }}</td>
+            <td class="message-cell">{{ enquiry.message }}</td>
+            <td>{{ enquiry.createdAt | date:'medium' }}</td>
+            <td>
+              <button
+                type="button"
+                class="danger-button"
+                (click)="deleteEnquiry(enquiry)"
+                [disabled]="deletingId === enquiry.id"
+              >
+                {{ deletingId === enquiry.id ? 'Deleting...' : 'Delete' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+</main>
+
