@@ -1,0 +1,52 @@
+<main class="admin-page login-page">
+  <nav class="admin-navbar">
+    <a class="brand" routerLink="/">
+      <img src="logo.png" alt="Sarvam Talent Solutions logo" />
+      <span>Sarvam Talent Solutions</span>
+    </a>
+    <a class="nav-link" routerLink="/">Back to site</a>
+  </nav>
+
+  <section class="login-shell">
+    <div class="login-copy">
+      <p class="eyebrow">Admin workspace</p>
+      <h1>Manage enquiries with clarity.</h1>
+      <p>Review candidate and client messages, search quickly, export reports, and keep the inbox tidy.</p>
+    </div>
+
+    <section class="login-panel">
+      <h2>Admin Login</h2>
+      <p class="panel-subtitle">Use your Sarvam admin credentials.</p>
+
+      <form #loginForm="ngForm" class="admin-form" (ngSubmit)="onSubmit(loginForm)">
+        <label>
+          Username
+          <input
+            name="username"
+            type="text"
+            [(ngModel)]="credentials.username"
+            required
+            autocomplete="username"
+          />
+        </label>
+
+        <label>
+          Password
+          <input
+            name="password"
+            type="password"
+            [(ngModel)]="credentials.password"
+            required
+            autocomplete="current-password"
+          />
+        </label>
+
+        <button type="submit" [disabled]="submitting">
+          {{ submitting ? 'Logging in...' : 'Login' }}
+        </button>
+
+        <p class="admin-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+      </form>
+    </section>
+  </section>
+</main>

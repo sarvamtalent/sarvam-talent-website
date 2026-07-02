@@ -1,4 +1,4 @@
-<form #contactForm="ngForm" class="contact-form" (ngSubmit)="onSubmit(contactForm)">
+<form #contactForm="ngForm" class="contact-form" (ngSubmit)="onSubmit(contactForm)" [attr.aria-busy]="submitting">
   <div class="form-field">
     <input
       name="name"
@@ -51,11 +51,15 @@
     <div class="error" *ngIf="message.invalid && message.touched">Requirement details are required.</div>
   </div>
 
-  <button type="submit" [disabled]="submitting">
+  <button type="submit" [disabled]="submitting" [class.loading]="submitting">
     {{ submitting ? 'Submitting...' : 'Submit' }}
   </button>
 
-  <div class="success-message" *ngIf="submitted">
+  <div class="success-message" *ngIf="submitted" aria-live="polite">
     {{ successMessage }}
+  </div>
+
+  <div class="submit-error" *ngIf="errorMessage" role="alert">
+    {{ errorMessage }}
   </div>
 </form>

@@ -74,3 +74,13 @@ button[disabled] {
     width: 100%;
   }
 }
+
+.submit-error {
+  color: #d93025;
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+button.loading {
+  background: #4aa3df;
+}
